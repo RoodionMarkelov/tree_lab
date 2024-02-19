@@ -11,12 +11,12 @@ struct Node {
 
 class Tree {
 	Node* _root;
-	int _size;
+	int _size;//////////////
 public:
 	Tree() : _root(nullptr), _size(0) {};
 	Tree(const Tree& other) {
 		_root = nullptr;
-		_size = 0;
+		_size = 0;//////////////
 	}
 
 	void print() {
@@ -26,7 +26,7 @@ public:
 		print(_root->rigt);
 	}
 
-	int height() {
+	/*int height() {
 		int left_h, right_h, h = 0;
 		if (_root) {
 			left_h = height(_root->_left);
@@ -34,10 +34,52 @@ public:
 			h = ((left_h > right_h) ? left_h : right_h) + 1;
 		}
 		return h;
-	}
+	}*/
 
 	bool insert(int key) {
-
+		while (_root) {
+			if (key < _root->_data) {
+				_root = _root->_left;
+			}
+			else {
+				_root = _root->_right;
+			}
+		}
+		if (!_root) {
+			_root = new Node(key);
+			return true;
+		}
 	}
 
+	bool contains(int key) {
+		while (_root) {
+			if (key == _root->_data) return true;
+			if (key < _root->_data) {
+				_root = _root->_left;
+			}
+			else {
+				_root = _root->_right;
+			}
+		}
+		if (!_root) {
+			return false;
+		}
+	}
+	
+	bool erase(int key) {
+		while (_root) {
+			if (key == _root->_data) {
+
+			}
+			if (key < _root->_data) {
+				_root = _root->_left;
+			}
+			else {
+				_root = _root->_right;
+			}
+		}
+		if (!_root) {
+			return false;
+		}
+	}
 };
