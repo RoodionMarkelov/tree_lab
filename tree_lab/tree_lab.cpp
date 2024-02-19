@@ -1,7 +1,4 @@
-﻿// tree_lab.cpp: определяет точку входа для приложения.
-//
-
-#include "tree_lab.h"
+﻿#include "tree_lab.h"
 
 using namespace std;
 
