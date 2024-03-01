@@ -1,85 +1,173 @@
 ﻿#pragma once
 
 #include <iostream>
+using namespace std;
 
 struct Node {
 	int _data;
 	Node* _left;
 	Node* _right;
-	Node(int data) : _data(data), _right(nullptr), _left(nullptr) {};
+	Node(int data) : _data(data), _left(nullptr), _right(nullptr) {};
 };
 
 class Tree {
 	Node* _root;
-	int _size;//////////////
+	int _size;
+
+	void print(const Node* root) {
+		if (!root) return;
+		print(root->_left);
+		cout << root->_data << " ";
+		print(root->_right);
+	}
+
+	void remove(int key) {
+		Node* current = _root;
+		Node* prev = nullptr;
+		while (current && current->_data != key) {
+			prev = current;
+			if (key < current->_data) {
+				current = current->_left;
+			}
+			else {
+				current = current->_right;
+			}
+		}
+		if (!current) return;
+		if (!current->_left) {
+			if (prev && prev->_left == current) {
+				prev->_left = current->_right;
+			}
+			if (prev && prev->_right == current) {
+				prev->_right = current->_right;
+			}
+			if (!prev && !current->_data && !current->_right) _root = nullptr;
+			delete current;
+			return;
+		}
+		if (!current->_right) {
+			if (prev && prev->_left == current) {
+				prev->_left = current->_left;
+			}
+			if (prev && prev->_right == current) {
+				prev->_right = current->_left;
+			}
+			delete current;
+			return;
+		}
+		Node* replacement = current->_left;
+		while (replacement->_right) {
+			replacement = replacement->_right;
+		}
+		int replacement_data = replacement->_data;
+		erase(replacement->_data);
+		current->_data = replacement_data;
+		return;
+	}
+
+	void clear(Node* root) {
+		if (root) {
+			clear(root->_left);
+			clear(root->_right);
+			remove(root->_data);
+		}
+		return;
+	}
+
+	void clear_tree() {
+		clear(_root);
+	}
+
+	void add(int key) {
+		if (!_root) {
+			_root = new Node(key);
+			return;
+		}
+		Node* current = _root;
+		while (current) {
+			if (key < current->_data && !current->_left) {
+				current->_left = new Node(key);
+				return;
+			}
+			if (key > current->_data && !current->_right) {
+				current->_right = new Node(key);
+				return;
+			}
+			if (key < current->_data) {
+				current = current->_left;
+			}
+			else current = current->_right;
+		}
+	}
+
+	void add_copy(Node* from_root) {
+		if (!from_root) return;
+		add(from_root->_data);
+		add_copy(from_root->_left);
+		add_copy(from_root->_right);
+	}
+
 public:
-	Tree() : _root(nullptr), _size(0) {};
+	Tree() : _root(nullptr) {};
+
 	Tree(const Tree& other) {
 		_root = nullptr;
-		_size = 0;//////////////
+		if (other._root) {
+			add_copy(other._root);
+		}
+	}
+
+	Tree operator=(const Tree& other) {
+		clear_tree();
+		if (other._root) {
+			add_copy(other._root);
+		}
+	}
+
+	~Tree() {
+		clear_tree();
 	}
 
 	void print() {
-		if (!_root) return;
-		print(_root->_left);
-		cout << _root->data;
-		print(_root->rigt);
+		if (!_root) {
+			cout << "BinaryTree is empty" << endl;
+		}
+		else {
+			cout << "Elements of BinaryTree:" << endl;
+			print(_root);
+			cout << endl << endl;
+			return;
+		}
 	}
 
-	/*int height() {
-		int left_h, right_h, h = 0;
-		if (_root) {
-			left_h = height(_root->_left);
-			right_h = height(_root->_right);
-			h = ((left_h > right_h) ? left_h : right_h) + 1;
-		}
-		return h;
-	}*/
-
 	bool insert(int key) {
-		while (_root) {
-			if (key < _root->_data) {
-				_root = _root->_left;
-			}
-			else {
-				_root = _root->_right;
-			}
-		}
-		if (!_root) {
-			_root = new Node(key);
+		if (contains(key)) return false;
+		else {
+			add(key);
 			return true;
 		}
 	}
 
 	bool contains(int key) {
-		while (_root) {
-			if (key == _root->_data) return true;
-			if (key < _root->_data) {
-				_root = _root->_left;
+		Node* current = _root;
+		while (current) {
+			if (key == current->_data) return true;
+			if (key < current->_data) {
+				current = current->_left;
 			}
 			else {
-				_root = _root->_right;
+				current = current->_right;
 			}
 		}
-		if (!_root) {
-			return false;
-		}
+		return false;
 	}
-	
-	bool erase(int key) {
-		while (_root) {
-			if (key == _root->_data) {
 
-			}
-			if (key < _root->_data) {
-				_root = _root->_left;
-			}
-			else {
-				_root = _root->_right;
-			}
+	bool erase(int key) {
+		if (contains(key)) {
+			remove(key);
+			return true;
 		}
-		if (!_root) {
-			return false;
-		}
+		return false;
+
 	}
 };
