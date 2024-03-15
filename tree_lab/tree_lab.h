@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include <iostream>
+#include <vector>
+
 using namespace std;
 
 struct Node {
@@ -12,7 +14,6 @@ struct Node {
 
 class Tree {
 	Node* _root;
-	int _size;
 
 	void print(const Node* root) {
 		if (!root) return;
@@ -100,11 +101,11 @@ class Tree {
 		}
 	}
 
-	void add_copy(Node* from_root) {
+	void copy(Node* from_root) {
 		if (!from_root) return;
 		add(from_root->_data);
-		add_copy(from_root->_left);
-		add_copy(from_root->_right);
+		copy(from_root->_left);
+		copy(from_root->_right);
 	}
 
 public:
@@ -113,14 +114,14 @@ public:
 	Tree(const Tree& other) {
 		_root = nullptr;
 		if (other._root) {
-			add_copy(other._root);
+			copy(other._root);
 		}
 	}
 
 	Tree operator=(const Tree& other) {
 		clear_tree();
 		if (other._root) {
-			add_copy(other._root);
+			copy(other._root);
 		}
 	}
 
@@ -171,3 +172,18 @@ public:
 
 	}
 };
+
+std::vector<int> find_repeat(std::vector<int> vec) {
+	Tree tree;
+	vector<int> result;
+	for (int i = 0; i < vec.size(); ++i) {
+		if ((tree.insert(vec[i]) == false) && (std::find(result.begin(), result.end(), vec[i]) == result.end() || result.size() == 0)) {
+			result.push_back(vec[i]);
+		}
+	}
+	return result;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//Additional Task
+///////////////////////////////////////////////////////////////////////////////////////////
