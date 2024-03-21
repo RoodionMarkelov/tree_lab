@@ -165,7 +165,18 @@ int main()
 	//Additional Task
 	//////////////////////////////////////////////////////////////////
 	
-	
+	CopyTree copytree;
+	copytree.insert(0);
+	copytree.insert(1);
+	copytree.insert(2);
+	copytree.insert(-1);
+	copytree.insert(-2);
+	copytree.insert(0);
+	copytree.insert(1);
+	copytree.insert(2);
+	copytree.insert(2);
+
+	copytree.print();
 
 	return 0;
 }
