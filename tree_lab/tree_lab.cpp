@@ -1,6 +1,7 @@
 ﻿#include "tree_lab.h"
 #include <vector>
 #include <ctime>
+#include <iostream>
 
 using namespace std;
 
@@ -36,29 +37,30 @@ Tree _random_tree(int size, int i) {
 
 int main()
 {
-	//Tree tree;
-	//tree.insert(0);
-	//tree.insert(1);
-	//tree.insert(-1);
-	//tree.insert(2);
-	//tree.insert(-2);
-	//tree.insert(-2);
-	//
-	//tree.print();
-	//
-	////cout << tree.contains(3) << endl;
-	///*tree.erase(2);
-	//tree.erase(-2);
-	//tree.erase(1);
-	//tree.erase(-1);
-	//tree.erase(0);*/
-	//
-	//Tree tree2(tree);
-	//
-	//tree2.print();
+	Tree tree;
+	tree.insert(0);
+	tree.insert(1);
+	tree.insert(-1);
+	tree.insert(2);
+	tree.insert(-2);
+	tree.insert(-2);
+	
+	tree.print();
+	
+	tree.erase(2);
+	tree.erase(-2);
+	tree.erase(1);
+	tree.erase(-10);
+	tree.erase(0);
 
-	//Tree tree3 = tree2;
-	//tree3.print();
+	tree.print();
+	
+	Tree tree2(tree);
+	
+	tree2.print();
+
+	Tree tree3 = tree2;
+	tree3.print();
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 	//Stats
@@ -161,22 +163,6 @@ int main()
 	print(for_task1);
 	print(for_task2);
 
-	//////////////////////////////////////////////////////////////////
-	//Additional Task
-	//////////////////////////////////////////////////////////////////
-	
-	CopyTree copytree;
-	copytree.insert(0);
-	copytree.insert(1);
-	copytree.insert(2);
-	copytree.insert(-1);
-	copytree.insert(-2);
-	copytree.insert(0);
-	copytree.insert(1);
-	copytree.insert(2);
-	copytree.insert(2);
-
-	copytree.print();
 
 	return 0;
 }
